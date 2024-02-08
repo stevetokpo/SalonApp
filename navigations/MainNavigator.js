@@ -28,7 +28,7 @@ function HomeStackNavigator() {
                 component={ExposantDetails}
                 options={{
                     headerStyle: {
-                        backgroundColor: '#00061E',
+                        backgroundColor: '#272927',
                     },
                     headerTintColor: '#ffffff',
                     headerTitleStyle: {
