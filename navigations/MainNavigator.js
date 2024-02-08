@@ -34,6 +34,7 @@ function HomeStackNavigator() {
                     headerTitleStyle: {
                         color: '#ffffff',
                     },
+                    title: 'Profil de l’exposant'
                 }}
             />
         </HomeStack.Navigator>

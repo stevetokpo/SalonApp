@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 
@@ -37,6 +38,24 @@ export default function App() {
     }
 
     useEffect(() => {
+        const handleDeepLink = (event) => {
+            let data = Linking.parse(event.url);
+            // Exemple d'utilisation des données de l'URL, par exemple naviguer vers un exposant spécifique
+            // Assurez-vous d'avoir un système de navigation en place
+            navigateToExposant(data.pathway.id);
+        };
+
+        // Écoute pour les liens entrants lorsque l'app est ouverte
+        Linking.addEventListener('url', handleDeepLink);
+
+        // Gérer le cas où l'app est lancée à partir d'un lien profond
+        Linking.getInitialURL().then((url) => {
+            if (url) handleDeepLink({ url });
+        });
+
+        return () => {
+            Linking.removeEventListener('url', handleDeepLink);
+        };
         checkAndSetAlreadyWelcomed()
     }, [])
 
@@ -44,7 +63,7 @@ export default function App() {
         <Layout>
             {!alreadyWelcomed ? (
                 <IntroScreen onFinish={() => checkWelcomed()} />
-            ) :  (
+            ) : (
                 <NavigationContainer>
                     <MainNavigator />
                 </NavigationContainer>

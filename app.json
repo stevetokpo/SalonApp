@@ -1,32 +1,59 @@
 {
-  "expo": {
-    "name": "Salon App",
-    "slug": "SalonApp",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#000000"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png"
-      }
-    },
-    "web": {
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-font"
-    ]
-  }
+    "expo": {
+        "name": "Salon App",
+        "slug": "SalonApp",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/images/icon.png",
+        "userInterfaceStyle": "light",
+        "scheme": "sa",
+        "splash": {
+            "image": "./assets/images/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#000000"
+        },
+        "assetBundlePatterns": [
+            "**/*"
+        ],
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.stevetokpo.salonapp",
+            "associatedDomains": [
+                "applinks:www.salonapp.com"
+            ]
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/adaptive-icon.png"
+            },
+            "package": "com.stevetokpo.SalonApp",
+            "intentFilters": [
+                {
+                    "action": "VIEW",
+                    "data": [
+                        {
+                            "scheme": "sa",
+                            "host": "www.salonapp.com",
+                            "pathPrefix": "/exposant"
+                        }
+                    ],
+                    "category": [
+                        "BROWSABLE",
+                        "DEFAULT"
+                    ]
+                }
+            ]
+        },
+        "web": {
+            "favicon": "./assets/images/favicon.png"
+        },
+        "plugins": [
+            "expo-font"
+        ],
+        "extra": {
+            "eas": {
+                "projectId": "0646eda3-e50a-422b-b290-fac5f913bb36"
+            }
+        }
+    }
 }
