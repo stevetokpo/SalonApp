@@ -32,7 +32,7 @@ const UserProfileScreen = () => {
             </View>
             <TouchableOpacity
                 style={[styles.button, isPressed && styles.buttonPressed]}
-                onPress={onFinish}
+                onPress={console.log('ok')}
                 onPressIn={() => setIsPressed(true)}
                 onPressOut={() => setIsPressed(false)}
             >
