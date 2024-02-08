@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { THEME_COLORS } from '../constants/AppInfos';
 
 const UserProfileScreen = () => {
+    const [isPressed, setIsPressed] = useState(false);
     const profilImg = require('../assets/images/brands/ag2.png')
     return (
         <View style={styles.container}>
