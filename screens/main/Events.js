@@ -48,14 +48,14 @@ const EventList = () => (
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#272927',
+        backgroundColor: THEME_COLORS.c950,
         padding: 10,
         paddingTop: 20,
     },
     header: {
         color: '#fff',
         fontSize: 24,
-        marginBottom: 20,
+        marginBottom: 27,
         fontFamily: 'Ubuntu-Bold'
     },
     eventItem: {

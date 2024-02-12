@@ -9,8 +9,8 @@
         "scheme": "sa",
         "splash": {
             "image": "./assets/images/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#000000"
+            "resizeMode": "container",
+            "backgroundColor": "#272927"
         },
         "assetBundlePatterns": [
             "**/*"

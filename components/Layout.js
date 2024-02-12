@@ -3,6 +3,7 @@ import { View, StatusBar } from 'react-native'
 import * as Font from 'expo-font'
 
 import styles from '../styles/Global.js'
+import { THEME_COLORS } from '../constants/AppInfos.js'
 
 const Layout = ({ children }) => {
     const [fontLoaded, setFontLoaded] = useState(false)
@@ -29,7 +30,7 @@ const Layout = ({ children }) => {
     }
     return (
         <View style={styles.container}>
-            <StatusBar barStyle="light-content" backgroundColor="#272927" />
+            <StatusBar barStyle="light-content" backgroundColor={THEME_COLORS.c950} />
             {children}
         </View>
     )

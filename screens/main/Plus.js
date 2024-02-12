@@ -1,68 +1,68 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-
-import Layout from '../../components/Layout';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { THEME_COLORS } from '../../constants/AppInfos';
 
 const Plus = () => {
+    const items = [
+        { label: 'Mon Compte', icon: 'person-outline', color: '#00C4B4' },
+        { label: 'Plan interactif', icon: 'map-outline', color: '#FF6B6B' },
+        { label: 'Type du compte', icon: 'layers-outline', color: '#FFD93D' },
+        { label: 'Détails de l\'app', icon: 'information-circle-outline', color: '#6BCB77' },
+    ];
+
     return (
-        <Layout>
-            <View style={styles.container}>
-                <Text style={styles.title}>PLUS D'OPTION</Text>
-
-                <View style={styles.row}>
-                    <TouchableOpacity style={styles.box}>
-                        <Text style={styles.boxText}>Mon compte</Text>
+        <View style={styles.container}>
+            <Text style={styles.title}>PLUS D'OPTION</Text>
+            <View style={styles.container2}>
+                {items.map((item, index) => (
+                    <TouchableOpacity key={index} style={styles.itemContainer}>
+                        <Icon name={item.icon} size={24} color={item.color} style={styles.icon} />
+                        <Text style={styles.text}>{item.label}</Text>
                     </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.box}>
-                        <Text style={styles.boxText}>Plan interractif</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.row}>
-                    <TouchableOpacity style={styles.box}>
-                        <Text style={styles.boxText}>Action</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.box}>
-                        <Text style={styles.boxText}>Détails de l'app</Text>
-                    </TouchableOpacity>
-                </View>
+                ))}
             </View>
-        </Layout>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
-        paddingTop: 40
+        backgroundColor: THEME_COLORS.c950,
+        textAlign: 'center'
+    },
+    container2: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     title: {
-        fontSize: 30,
+        fontSize: 27,
         marginLeft: 10,
         marginBottom: 20,
         color: '#ffffff',
-        fontFamily: 'Montserrat-Bold',
+        fontFamily: 'Ubuntu-Bold',
+        marginTop: 20,
+        textAlign: 'center'
     },
-    row: {
+    itemContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 10,
+        alignItems: 'center',
+        marginVertical: 8,
+        backgroundColor: '#333',
+        paddingHorizontal: 16,
+        paddingVertical: 16,
+        borderRadius: 20,
+        width: '90%',
     },
-    box: {
-        backgroundColor: '#FF9716',
-        padding: 15,
-        borderRadius: 10,
-        flex: 1,
-        marginHorizontal: 5,
-        marginBottom: 10
+    icon: {
+        marginRight: 10,
     },
-    boxText: {
-        color: 'white',
-        fontSize: 16,
-        textAlign: 'center',
-        fontFamily: 'Montserrat-Regular'
+    text: {
+        fontSize: 20,
+        color: '#fff',
+        fontFamily: 'Ubuntu-Regular'
     },
 });
 

@@ -41,6 +41,34 @@ function HomeStackNavigator() {
     );
 }
 
+const ExposantStack = createStackNavigator();
+
+function ExposantStackNavigator() {
+    return (
+        <ExposantStack.Navigator>
+            <ExposantStack.Screen
+                name="ExposantStack"
+                component={ExposantsScreen}
+                options={{ headerShown: false }}
+            />
+            <ExposantStack.Screen
+                name="ExposantDetails"
+                component={ExposantDetails}
+                options={{
+                    headerStyle: {
+                        backgroundColor: '#272927',
+                    },
+                    headerTintColor: '#ffffff',
+                    headerTitleStyle: {
+                        color: '#ffffff',
+                    },
+                    title: 'Profil de l’exposant'
+                }}
+            />
+        </ExposantStack.Navigator>
+    );
+}
+
 const Tab = createBottomTabNavigator();
 
 const StackNavigator = () => {
@@ -54,16 +82,16 @@ const StackNavigator = () => {
                     let iconName;
 
                     if (route.name === 'Home') {
-                        iconName = focused ? 'heart' : 'heart-outline';
+                        iconName = focused ? 'albums' : 'albums-outline';
                     }
                     else if (route.name === 'Exposants') {
-                        iconName = focused ? 'person' : 'person-outline';
+                        iconName = focused ? 'desktop' : 'desktop-outline';
                     }
                     else if (route.name === 'Events') {
-                        iconName = focused ? 'calendar' : 'calendar-outline';
+                        iconName = focused ? 'calendar-number' : 'calendar-number-outline';
                     }
                     else if (route.name === 'Plus') {
-                        iconName = focused ? 'add-circle' : 'add-circle-outline';
+                        iconName = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
                     }
                     
                     return <Icon name={iconName} size={size} color={THEME_COLORS.c400} />;
@@ -81,7 +109,7 @@ const StackNavigator = () => {
             />
             <Tab.Screen 
                 name="Exposants" 
-                component={ExposantsScreen} 
+                component={ExposantStackNavigator} 
                 options={{
                     title: 'Exposants'
                 }}

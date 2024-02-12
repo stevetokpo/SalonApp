@@ -34,7 +34,7 @@ export default StyleSheet.create({
         marginBottom: 20,
     },
     button: {
-        backgroundColor: THEME_COLORS.c700,
+        backgroundColor: THEME_COLORS.c500,
         padding: 10,
         borderRadius: 5,
         alignItems: 'center',
@@ -50,7 +50,7 @@ export default StyleSheet.create({
         width: '95%',
     },
     buttonPressed: {
-        backgroundColor: THEME_COLORS.c900,
+        backgroundColor: THEME_COLORS.c700,
     },
     button_text: {
         color: '#ffffff',

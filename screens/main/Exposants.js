@@ -1,196 +1,233 @@
-import React, { useRef, useState, useMemo } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, Animated } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const Data = [
-    {
-        id: '1',
-        image: require('../../assets/images/brands/ag1.png'),
-        cover: require('../../assets/images/bg.jpg'),
-        label: 'Pepsi',
-        categorie: '1'
-    },
-    {
-        id: '2',
-        image: require('../../assets/images/brands/ag2.png'),
-        cover: require('../../assets/images/bg.jpg'),
-        label: 'Coca Cola',
-        categorie: '1'
-    },
-    {
-        id: '3',
-        image: require('../../assets/images/brands/ag3.png'),
-        cover: require('../../assets/images/bg.jpg'),
-        label: 'Monster Energy',
-        categorie: '1'
-    },
-    {
-        id: '4',
-        image: require('../../assets/images/brands/ag4.png'),
-        cover: require('../../assets/images/bg.jpg'),
-        label: 'Heineken',
-        categorie: '1'
-    },
-    {
-        id: '5',
-        image: require('../../assets/images/brands/ag5.jpg'),
-        cover: require('../../assets/images/bg.jpg'),
-        label: 'Drink',
-        categorie: '1'
-    },
-    {
-        id: '6',
-        image: require('../../assets/images/brands/ag6.png'),
-        cover: require('../../assets/images/bg.jpg'),
-        label: 'PSG',
-        categorie: '2'
-    },
-    {
-        id: '7',
-        image: require('../../assets/images/brands/ag7.webp'),
-        cover: require('../../assets/images/bg.jpg'),
-        label: 'FC Barcelona',
-        categorie: '2'
-    },
-    {
-        id: '8',
-        image: require('../../assets/images/brands/ag8.webp'),
-        cover: require('../../assets/images/bg.jpg'),
-        label: 'Real Madrid',
-        categorie: '2'
-    },
-    {
-        id: '9',
-        image: require('../../assets/images/brands/ag9.webp'),
-        cover: require('../../assets/images/bg.jpg'),
-        label: 'Liverpool',
-        categorie: '2'
-    },
+import { THEME_COLORS } from '../../constants/AppInfos';
+const { width } = Dimensions.get('window');
+
+const categories = [
+    { id: 1, name: 'Informatique', color: '#FF4136' },
+    { id: 2, name: 'Marketing', color: '#0074D9' },
+    { id: 3, name: 'Boisson', color: '#B4A512' },
+    { id: 4, name: 'Ceciscrollable', color: '#C47845' },
+    { id: 5, name: 'Graphisme', color: '#B4A512' },
+    { id: 6, name: 'Secretariat', color: '#B4A512' },
+    { id: 7, name: 'Autres', color: '#B4A512' },
 ];
 
-const { width } = Dimensions.get('window');
-const itemWidth = width * 0.8;
-const itemMargin = 10;
-const spacerWidth = (width - itemWidth) / 2 - itemMargin;
+const elements = [
+    {
+        id: 1,
+        categorie: 3,
+        nom: 'Pepsi',
+        bio: 'Première boisson consommée au monde',
+        photoProfil: require('../../assets/images/brands/ag1.png'),
+        photoPresentation: require('../../assets/images/cover.png'),
+        adresse: 'USA',
+        certificate: 0
+    },
+    {
+        id: 2,
+        categorie: 3,
+        nom: 'Coca Cola',
+        bio: 'Vous savez qui je suis',
+        photoProfil: require('../../assets/images/brands/ag2.png'),
+        photoPresentation: require('../../assets/images/cover.png'),
+        adresse: 'Amérique du Sud',
+        certificate: 1
+    },
+    {
+        id: 3, categorie: 1,
+        nom: 'Dell XPS',
+        bio: 'Ordinateur portable performant pour les professionnels et les créateurs',
+        photoProfil: require('../../assets/images/brands/ag3.png'),
+        photoPresentation: require('../../assets/images/cover.png'),
+        adresse: 'USA',
+        certificate: 1
+    },
+    {
+        id: 4,
+        categorie: 2,
+        nom: 'Canva',
+        bio: 'Outil de conception graphique en ligne, utilisé pour créer des visuels de marketing',
+        photoProfil: require('../../assets/images/brands/ag4.jpg'),
+        photoPresentation: require('../../assets/images/cover.png'),
+        adresse: 'Australie',
+        certificate: 0
+    },
+    {
+        id: 5,
+        categorie: 3,
+        nom: 'Red Bull',
+        bio: 'Boisson énergisante vendue par Red Bull GmbH, connue pour ses campagnes de marketing',
+        photoProfil: require('../../assets/images/brands/ag5.jpg'),
+        photoPresentation: require('../../assets/images/cover.png'),
+        adresse: 'Autriche',
+        certificate: 1
+    }
+];
 
-const Home = ({ navigation }) => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const scrollX = useRef(new Animated.Value(0)).current;
-
-    // Tri et regroupement des données par catégorie
-    const sortedData = useMemo(() => {
-        // Tri des éléments par catégorie
-        return Data.sort((a, b) => a.categorie.localeCompare(b.categorie));
-    }, [Data]);
-
+const Exposants = ({ navigation }) => {
     const openDetails = (item) => {
         if (item) {
             navigation.navigate('ExposantDetails', { imageItem: item });
         }
     };
+    const [activeCategory, setActiveCategory] = useState(null);
 
-    const renderItem = ({ item, index }) => {
-        const inputRange = [
-            (index - 2) * (itemWidth + itemMargin * 2),
-            (index - 1) * (itemWidth + itemMargin * 2),
-            index * (itemWidth + itemMargin * 2),
-        ];
+    const filterElements = activeCategory ? elements.filter(element => element.categorie === activeCategory) : elements;
+    const keyExtractor = (item) => item.id !== null ? item.id.toString() : 'all';
 
-        const scale = scrollX.interpolate({
-            inputRange,
-            outputRange: [0.9, 1, 0.9],
-            extrapolate: 'clamp',
-        });
+    const renderCategoryItem = ({ item }) => (
+        <TouchableOpacity
+            onPress={() => setActiveCategory(item.id)}
+            style={[
+                styles.categoryItem,
+                activeCategory === item.id
+                    ? { backgroundColor: item.color ? item.color : 'white' } // Active background color
+                    : { borderColor: item.color, borderWidth: 1 } // Inactive border
+            ]}
+        >
+            <Text
+                style={{
+                    color: activeCategory === item.id && !item.color ? 'black' : activeCategory === item.id ? 'white' : item.color, // Text color change
+                    fontWeight: 'bold',
+                }}
+            >
+                {item.name}
+            </Text>
+        </TouchableOpacity>
+    );
 
-        const rotateY = scrollX.interpolate({
-            inputRange,
-            outputRange: ['30deg', '0deg', '-30deg'],
-            extrapolate: 'clamp',
-        });
-
-        return (
+    const renderElementItem = ({ item }) => (
+        <View style={styles.card}>
             <TouchableOpacity onPress={() => openDetails(item)}>
-                <Animated.View style={[styles.carouselItem, { transform: [{ scale }, { rotateY }] }]}>
-                    <Image source={item.image} style={styles.image} />
-                    <Text style={styles.label}>{item.label}</Text>
-                    <Text style={styles.rating}>
-                        {'⭐️ Catégorie: ' + item.categorie}
-                    </Text>
-                </Animated.View>
+                <Image source={item.photoProfil} style={styles.profilePic} />
+                {item.certificate === 1 && (
+                    <Icon name="shield-checkmark" size={24} color="gold" style={styles.certifiedIcon} />
+                )}
+                <Image source={item.photoPresentation} style={styles.coverPhoto} />
+                <View style={styles.infoContainer}>
+                    <Text style={styles.name}>{item.nom}</Text>
+                    <Text style={styles.bio}>{item.bio}</Text>
+                    <Text style={styles.address}>{item.adresse}</Text>
+                </View>
             </TouchableOpacity>
-        );
-    };
-
-    const handleScroll = Animated.event(
-        [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-        {
-            useNativeDriver: true,
-            listener: event => {
-                const newIndex = Math.floor(event.nativeEvent.contentOffset.x / (itemWidth + itemMargin * 2) + 0.5);
-                setActiveIndex(newIndex);
-            },
-        }
+        </View>
     );
 
     return (
-        <ImageBackground source={require('../../assets/images/bg.jpg')} style={styles.backgroundImage} blurRadius={10}>
-            <View style={styles.container}>
-                <Animated.FlatList
-                    horizontal
-                    data={sortedData}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
-                    snapToAlignment="start"
-                    snapToInterval={itemWidth + itemMargin * 2}
-                    decelerationRate="fast"
-                    pagingEnabled
-                    scrollEventThrottle={16}
-                    onScroll={handleScroll}
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{
-                        paddingHorizontal: spacerWidth,
-                    }}
-                />
-            </View>
-        </ImageBackground>
+        <View style={styles.container}>
+            <Text style={styles.title}>LES EXPOSANTS</Text>
+            <FlatList
+                horizontal
+                data={[{ id: null, name: 'All' }, ...categories]}
+                renderItem={renderCategoryItem}
+                keyExtractor={keyExtractor}
+                showsHorizontalScrollIndicator={false}
+                style={styles.categoriesList}
+                contentContainerStyle={styles.categoriesListContent}
+            />
+            <FlatList
+                data={filterElements}
+                renderItem={renderElementItem}
+                keyExtractor={(item) => item.id.toString()}
+                showsVerticalScrollIndicator={false}
+                style={styles.elementsList}
+            />
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'flex-end',
-        marginTop: 30
+        backgroundColor: THEME_COLORS.c950,
     },
-    backgroundImage: {
-        ...StyleSheet.absoluteFillObject,
-        width: undefined,
-        height: undefined,
+    title: {
+        fontSize: 27,
+        marginLeft: 10,
+        marginBottom: 20,
+        color: '#ffffff',
+        fontFamily: 'Ubuntu-Bold',
+        marginTop: 20
     },
-    carouselItem: {
-        width: itemWidth,
-        marginHorizontal: itemMargin,
+    categoriesList: {
+        flexGrow: 0,
+    },
+    categoriesListContent: {
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+    },
+    categoryItem: {
+        borderRadius: 20, // Rounded corners for the category buttons
+        paddingVertical: 8, // Vertical padding for the category buttons
+        paddingHorizontal: 16, // Horizontal padding for the category buttons
+        marginHorizontal: 10, // Space between category buttons
+        justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        paddingBottom: 20,
-        backfaceVisibility: 'hidden', // Empêcher le renversement du texte lors de la rotation
     },
-    image: {
-        width: '80%',
-        height: '80%',
-        borderRadius: 1,
+    categoryText: {
+        color: 'grey',
+        marginHorizontal: 10,
     },
-    label: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginTop: 10,
+    activeCategoryText: {
         color: 'white',
-    },
-    rating: {
-        fontSize: 16,
         fontWeight: 'bold',
-        color: 'white',
-        marginTop: 5,
     },
+    card: {
+        backgroundColor: '#1e1e1e', // Dark card color
+        margin: 10,
+        borderRadius: 15,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 10,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 20,
+        elevation: 10,
+    },
+    profilePic: {
+        width: 70,
+        height: 70,
+        borderRadius: 35,
+        borderWidth: 3,
+        borderColor: '#fff',
+        marginTop: 20, // Adjust the margin to position the profile image correctly
+        marginLeft: 10,
+    },
+    certifiedIcon: {
+        position: 'absolute',
+        top: 15,
+        right: 15,
+    },
+    coverPhoto: {
+        width: width - 20, // Full width of the card
+        height: 200,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+    },
+    infoContainer: {
+        padding: 20,
+    },
+    name: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    bio: {
+        color: 'lightgrey',
+        fontSize: 14,
+    },
+    address: {
+        color: 'grey',
+        fontSize: 12,
+    },
+    elementsList: {
+        flex: 1,
+    },
+    // Add other styles here as needed
 });
 
-export default Home;
+export default Exposants;

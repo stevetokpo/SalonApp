@@ -4,76 +4,80 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { THEME_COLORS } from '../constants/AppInfos';
 
-const UserProfileScreen = () => {
+export default function ExposantDetails() {
     const [isPressed, setIsPressed] = useState(false);
-    const profilImg = require('../assets/images/brands/ag2.png')
     return (
         <View style={styles.container}>
-            <Image
-                source={profilImg}
-                style={styles.profilePic}
-            />
-            <Text style={styles.name}>COCA COLA</Text>
-            <Text style={styles.bio}>Nous sommes @CocaCola l'exposant N°1 du Salon. Trouvez nos contacts sur notre profil.</Text>
-
-            <View style={styles.socialLinks}>
-                <TouchableOpacity style={styles.iconButton}>
-                    <Icon name="logo-facebook" size={30} color="#3b5998" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.iconButton}>
-                    <Icon name="logo-linkedin" size={30} color="#0e76a8" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.iconButton}>
-                    <Icon name="mail-outline" size={30} color="#f05454" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.iconButton}>
-                    <Icon name="logo-twitter" size={30} color="#00acee" />
+            <Image source={require('../assets/images/cover.png')} style={styles.coverImage} />
+            <View style={styles.profileContainer}>
+                <Image source={require('../assets/images/brands/ag2.png')} style={styles.profileImage} />
+                <Text style={styles.name}>Mart Biemans</Text>
+                <Text style={styles.location}>Netherlands</Text>
+                <View style={styles.socialLinks}>
+                    <TouchableOpacity style={styles.iconButton}>
+                        <Icon name="logo-facebook" size={30} color="#3b5998" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.iconButton}>
+                        <Icon name="logo-linkedin" size={30} color="#0e76a8" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.iconButton}>
+                        <Icon name="mail-outline" size={30} color="#f05454" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.iconButton}>
+                        <Icon name="logo-twitter" size={30} color="#00acee" />
+                    </TouchableOpacity>
+                </View>
+                <TouchableOpacity
+                    style={[styles.button, isPressed && styles.buttonPressed]}
+                    onPress={console.log('ok')}
+                    onPressIn={() => setIsPressed(true)}
+                    onPressOut={() => setIsPressed(false)}
+                >
+                    <Text style={styles.button_text}>PARTAGER LE PROFIL</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity
-                style={[styles.button, isPressed && styles.buttonPressed]}
-                onPress={console.log('ok')}
-                onPressIn={() => setIsPressed(true)}
-                onPressOut={() => setIsPressed(false)}
-            >
-                <Text style={styles.button_text}>PARTAGER LE PROFIL</Text>
-            </TouchableOpacity>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
-        paddingTop: 0,
+        justifyContent: 'flex-start',
         backgroundColor: '#272927'
     },
-    profilePic: {
+    coverImage: {
+        width: '100%',
+        height: 150,
+    },
+    profileContainer: {
+        alignItems: 'center',
+        marginTop: -50,
+    },
+    profileImage: {
         width: 150,
         height: 150,
         borderRadius: 75,
-        marginBottom: 10,
+        borderWidth: 3,
+        borderColor: 'white',
     },
     name: {
-        fontSize: 30,
         fontFamily: 'Ubuntu-Bold',
-        marginTop: 10,
-        color: '#fff'
+        fontSize: 30,
+        marginTop: 8,
+        color: '#fefefe'
     },
-    bio: {
-        textAlign: 'center',
-        marginTop: 5,
-        marginBottom: 20,
+    location: {
+        fontSize: 14,
         fontFamily: 'Ubuntu-Regular',
-        color: '#e0e0e0'
+        color: '#a0a0a0'
     },
     socialLinks: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '80%',
+        marginTop: 10
     },
     iconButton: {
         backgroundColor: '#333',
@@ -104,15 +108,14 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         width: '95%',
+        marginTop: 10,
     },
     buttonPressed: {
         backgroundColor: THEME_COLORS.c900,
     },
     button_text: {
         color: '#ffffff',
-        fontSize: 28,
+        fontSize: 14,
         fontFamily: 'Ubuntu-Bold',
     }
 });
-
-export default UserProfileScreen;
